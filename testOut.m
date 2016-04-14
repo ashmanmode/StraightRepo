@@ -2,23 +2,28 @@ clear all;
 close all;
 clc;
 
-% Load the model
-load('ttsModelv1.mat');
+%Trained Model path
+modelPath = '/home/ashish/Straight/TandemSTRAIGHTmonolithicPackage010/Models/';
+%Input feature file path
+INDIR = '/home/ashish/Documents/HTS-demo_CMU-ARCTIC-SLT/data/inpFeatsASH/';
+%wavfile path
+WAVDIR = '/home/ashish/Documents/HTS-demo_CMU-ARCTIC-SLT/data/wavASH16/';
+
+%Loading the DnnTts Model
+load(strcat(modelPath,'ttsModelF5.mat'));
 
 %load the input features
-INDIR = '/home/ashish/Documents/HTS-demo_CMU-ARCTIC-SLT/data/inpFeatsASH/';
-Files = dir(INDIR);
-fileName = Files(3).name; 
+file = 'cmu_us_arctic_slt_a0001';
+fileName = strcat(file,'.feat');
 inputs = importdata(strcat(INDIR,fileName)); 
 
+%Use the model to get the outputs
 outputs = net(inputs')';
-
 output = outputs(:,1:40);
 f0_target = outputs(:,41);
 
 fs=16000;
-[testfeature,weightMatrix,q,f]=mfcc_straight('/home/ashish/Documents/HTS-demo_CMU-ARCTIC-SLT/data/wavASH16/cmu_us_arctic_slt_a0001.wav');
-%load('weightMatrixQF.mat');
+[originFeats,weightMatrix,q,f]=mfcc_straight(strcat(WAVDIR,strcat(file,'.wav')));
 
 % Using the output 
 q.f0 = f0_target;
