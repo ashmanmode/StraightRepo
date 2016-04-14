@@ -1,0 +1,5 @@
+%  Acoustic Feature Generation Script
+
+fileName = '/home/ashish/HTS-demo_CMU-ARCTIC-SLT/data/wav/cmu_us_arctic_slt_a0001.wav';
+a = mfcc_straight(filename);
+save('/home/ashish/HTS-demo_CMU-ARCTIC-SLT/data/acousticFeats/cmu_us_arctic_slt_a0001.mfcc',a);
